@@ -1,4 +1,7 @@
 import "../style/Header.css";
+import { useState,useMemo } from "react";
+import Select from "react-select";
+import countryList from "react-select-country-list";
 import { BiSearchAlt } from "react-icons/bi";
 import { BsCart3 } from "react-icons/bs";
 import { GiCash } from "react-icons/gi";
@@ -20,6 +23,15 @@ export default function Header({
   label7click,
   label8click,
 }) {
+
+  const[country,setCountry]=useState("");
+  const options= useMemo(() => countryList().getData(), [])
+  console.log(options)
+  const handlechange=country=>{
+    setCountry(country)
+  }
+  console.log(country.label)
+   const countrydropstyle={control: (styles) => ({...styles,backgroundColor:"#020223",color:"cornflowerblue"}),option:(styles)=>{return{...styles,backgroundColor:"#020223",color:"cornflowerblue"}}};
   return (
     <div className="Header">
       <div className="Header_row1">
@@ -29,7 +41,7 @@ export default function Header({
           </div>
         </div>
         <div className="Header_row1_clm1">
-          <label className="Header_row1_clm1_label1">Lottery drums</label>
+          <label className="Header_row1_clm1_label1">Lottery drums{country.value}</label>
           <label className="Header_row1_clm1_label2">
             <i>from devfactory</i>
           </label>
@@ -37,24 +49,17 @@ export default function Header({
         <div className="Header_row1_clm2">
           <div className="Header_row1_clm2_search">
             <input type={"text"}></input>
-            <div className="Header_row1_clm2_search_icon">
+            <div className="Header_row1_clm2_search_icon" onClick={(e) => searchbutton()}>
               <BiSearchAlt />
             </div>
           </div>
         </div>
         <div className="Header_row1_clm3">
-          <div
-            className="Header_row1_clm3_logo"
-            onClick={(e) => searchbutton()}
-          >
+          <div className="Header_row1_clm3_logo">
             <BiWorld />
           </div>
           <div className="Header_row1_clm3_option">
-            <select>
-              <option>IND</option>
-              <option>US</option>
-              <option>UK</option>
-            </select>
+            <Select options={options} value={country} styles={countrydropstyle} onChange={handlechange}/>
           </div>
         </div>
         <div className="Header_row1_clm4">
