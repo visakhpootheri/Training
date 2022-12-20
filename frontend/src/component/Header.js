@@ -41,7 +41,7 @@ export default function Header({
           </div>
         </div>
         <div className="Header_row1_clm1">
-          <label className="Header_row1_clm1_label1">Lottery drums{country.value}</label>
+          <label className="Header_row1_clm1_label1">Lottery drums</label>
           <label className="Header_row1_clm1_label2">
             <i>from devfactory</i>
           </label>
