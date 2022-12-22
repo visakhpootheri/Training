@@ -117,13 +117,6 @@ body{
 .Header_row1_clm5_rt{
     width: 60%;
 }
-span{
-    position: absolute;
-    color: goldenrod;
-    font-size:clamp(.9rem,1vw,1.5rem);
-    background-color: #020223;
-    margin-bottom: 23px;
-}
 .Header_row1_clm5_lt_logo{
     color: #fff;
     font-size: 2rem; 
@@ -131,6 +124,13 @@ span{
     align-items: center;
     justify-content: center;
     position: relative;
+}
+.Header_row1_clm5_lt_logo label{
+    position: absolute;
+    color: goldenrod;
+    font-size:clamp(.9rem,1vw,1.5rem);
+    margin-bottom: 23px;
+    background-color: #020223;
 }
 .Header_row2{
     width: 100%;

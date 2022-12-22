@@ -68,9 +68,9 @@ export default function Header({
         <div className="Header_row1_clm5">
           <div className="Header_row1_clm5_lt">
             <div className="Header_row1_clm5_lt_logo">
-              <span>
+              <label>
                 <b>{label2}</b>
-              </span>
+              </label>
               <BsCart3 />
             </div>
           </div>
