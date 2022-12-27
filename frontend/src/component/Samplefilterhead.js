@@ -4,7 +4,6 @@ import "../style/Filterhead.css";
 import Filterbox from "./Filterbox";
 import Adminuserslist from "./Adminuserslist";
 export default function Samplefilterhead() {
-
   const [userarray, setUserarray] = useState([]);
   const [filtersearch, setFiltersearch] = useState("");
   const [username, setUsername] = useState("");
@@ -29,26 +28,37 @@ export default function Samplefilterhead() {
       })
       .catch();
   }, []);
-  
-  
-//================filterbox=================//
 
-  const handleclickfilter=(e)=>{
-    usertemparray=userarray.filter((item)=>item.txtFname.toLowerCase().include(username.toLowerCase()))
-    console.log("jj",usertemparray)
-  }
+  //================filterbox=================//
 
-//==================searchbox===================//
+  const handleclickfilter = (e) => {
+    var temp = [...userarray];
+    setUserarray(
+      temp.filter(
+        (item) =>
+          item.txtLotteryname.toLowerCase().includes(Lotteryname.toLowerCase()) || item.txtFname.toLowerCase().includes(username.toLowerCase())));
+    setMainshow(false);
+  };
 
-  var usertemparray=[...userarray]
-  usertemparray=userarray.filter((item) =>item.txtLotteryname.toLowerCase().includes(filtersearch.toLowerCase())|| item.txtFname.toLowerCase().includes(filtersearch.toLowerCase()) || item.txtPurchaseddate.includes(filtersearch.toLowerCase()));
+  //==================searchbox===================//
 
-//==========selectall============//
+  var usertemparray = [...userarray];
+  usertemparray = userarray.filter(
+    (item) =>
+      item.txtLotteryname.toLowerCase().includes(filtersearch.toLowerCase()) ||
+      item.txtFname.toLowerCase().includes(filtersearch.toLowerCase()) ||
+      item.purchasedate.includes(filtersearch) ||
+      item.lotterydrawdate.includes(filtersearch)
+  );
+
+  //==========selectall============//
 
   const handlechange = (e) => {
     const { name, checked } = e.target;
     if (name === "allselect") {
-      let tempuser=userarray.map((item)=>{return{...item,ischecked:checked}})
+      let tempuser = userarray.map((item) => {
+        return { ...item, ischecked: checked };
+      });
       setUserarray(tempuser);
     } else {
       let tempuser = userarray.map((item) =>
@@ -57,12 +67,12 @@ export default function Samplefilterhead() {
       setUserarray(tempuser);
     }
   };
+  console.log("pp", usertemparray);
 
   return (
     <div>
       <div className="Filterpage_head">
-
-        <label>Selectall</label>{username}
+        <label>Selectall</label>
         <input type={"checkbox"} name="allselect" onChange={handlechange} />
 
         <button onClick={handleclick}>FILTER</button>
@@ -70,9 +80,8 @@ export default function Samplefilterhead() {
         <input
           type={"text"}
           placeholder="search...."
-          onChange={(e)=>setFiltersearch(e.target.value)}
+          onChange={(e) => setFiltersearch(e.target.value)}
         />
-        
 
         <Filterbox
           showfilter={mainshow}
@@ -88,7 +97,6 @@ export default function Samplefilterhead() {
       <div className="Filterpage_body">
         <Adminuserslist data={usertemparray} handlechange={handlechange} />
       </div>
-
     </div>
   );
 }
