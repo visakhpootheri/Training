@@ -7,13 +7,13 @@ table{
     border-collapse: collapse;
 }
 td{
-    border: 1px solid #e70a0ae0;
+    border: 1px solid black;
     text-align: left;
     padding: 10px;
     font-weight: 500;
 }
 th{
-    background-color:#391717;
-    color: #fff;
+    background-color:#202232;
+    color: goldenrod;
     padding: 10px;
 }
