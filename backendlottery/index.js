@@ -18,7 +18,7 @@ con.connect(function (err) {
 //------------userinfoforadmin--------------//
 
 app.post("/userlistforadmin",(req,res)=>{
-  var sql="select TUR.id,TUR.txtFname,TUR.txtLname,TUR.txtaddress,TLM.txtLotteryname,date_format(dtLotterydrawdate,'%Y-%m-%d') as lotterydrawdate,date_format(txtPurchaseddate,'%Y-%m-%d') as purchasedate from tblunit TU join tblusers TUR on TU.refUser=TUR.id join tbllotterymaster TLM on TU.refLotterymaster=TLM.id;"
+  var sql="select TUR.id,concat(TUR.txtFname,TUR.txtLname) as name,TUR.txtaddress,TLM.txtLotteryname,date_format(dtLotterydrawdate,'%Y-%m-%d') as lotterydrawdate,date_format(txtPurchaseddate,'%Y-%m-%d') as purchasedate from tblunit TU join tblusers TUR on TU.refUser=TUR.id join tbllotterymaster TLM on TU.refLotterymaster=TLM.id;"
   con.query(sql,function(err,result){
     if(err) throw err;
     console.log(result)
