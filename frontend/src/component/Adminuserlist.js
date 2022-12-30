@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Adminuserslist({ data }) {
+export default function Adminuserslist({data,fun2}) {
   const [newarr, setNewarr] = useState([]);
   const handlechange = (index) => {
     let temp = [...data];
@@ -8,8 +8,9 @@ export default function Adminuserslist({ data }) {
     for (const item of temp) {
       temp[index].ischecked = !temp[index].ischecked;
     }
-    console.log("g", temp[index]);
-    setNewarr(temp);
+    console.log("g",temp[index]);
+    setNewarr(temp)
+    
   };
   useEffect(() => {
     setNewarr(data);
@@ -34,7 +35,7 @@ export default function Adminuserslist({ data }) {
                 <td>
                   <input
                     type={"checkbox"}
-                    onChange={(e) => handlechange(index)}
+                    onChange={() => {handlechange(index);fun2();}}
                     checked={item.ischecked}
                   />
                 </td>
@@ -52,3 +53,4 @@ export default function Adminuserslist({ data }) {
     </>
   );
 }
+
