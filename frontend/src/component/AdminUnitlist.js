@@ -1,27 +1,25 @@
-// import HeaderUser from "../components/HeaderUser";
-// import Filterbar from "../components/Filterbar";
-// import Unitlist from "../components/Unitlist";
-// import Footer from "../components/Footer";
-// import { Navigate, useNavigate } from "react-router-dom";
-// import usestate from "usestate";
-// import AdminUserList from "../components/AdminUserList";
-// import Filterbox from "../components/Filterbox";
-
+import HeaderUser from "../components/HeaderUser";
+import Filterbar from "../components/Filterbar";
+import Unitlist from "../components/Unitlist";
+import Footer from "../components/Footer";
+import { Navigate, useNavigate } from "react-router-dom";
+import AdminUserList from "../components/AdminUserList";
+import Filterbox from "../components/Filterbox";
 import "../style/AdminUnitlist.css";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import Adminuserslist from "./Adminuserslist";
-import Filterbox from "./Filterbox";
-import Filterbar from "./Filterbar";
+
+
+
 
 function AdminUnitlist() {
-  //   const navigate = useNavigate();
-  //   const uname = localStorage.getItem("usrname");
-  //   const [unitdetails, setUnitdetails] = useState([]);
-  //   const [searchdate, setSearchdate] = useState([]);
+    const navigate = useNavigate();
+    const uname = localStorage.getItem("usrname");
+    const [unitdetails, setUnitdetails] = useState([]);
+    const [searchdate, setSearchdate] = useState([]);
 
-  const [filtersearch, setFilterSerach] = useState("");
+
   const [userarray, setUserarray] = useState([]);
   const [userdata, setUserdata] = useState([]);
   const [username, setUsername] = useState("");
@@ -42,6 +40,7 @@ function AdminUnitlist() {
         console.log("arrayhere", res.data);
         var temp = [...res.data];
         console.log("array", temp);
+
         for (const item of temp) {
           item.ischecked = false;
         }
@@ -54,7 +53,7 @@ function AdminUnitlist() {
 
   //==============handleclickbutton for Filterbox=============//
 
-  const handleclick = () => {
+  const filterhandleclick = () => {
     setMainshow(mainshow ? false : true);
     setUserarray(userdata);
     setLotteryname("");
@@ -65,62 +64,68 @@ function AdminUnitlist() {
 
   //=================Filterbox=======================//
 
-  const handleclickfilter = (e) => {
+  const handleclickfilter = () => {
     let temp = userarray.filter((item) =>
-      item.name.toLowerCase().includes(username.toLowerCase())
+      item.uname.toLowerCase().includes(username.toLowerCase())
     );
     let sample = userarray.filter((item) =>
       item.txtLotteryname.toLowerCase().includes(Lotteryname.toLowerCase())
     );
     let newsample = userarray.filter(
       (item) =>
-        item.name.toLowerCase().includes(username.toLowerCase()) &&
+        item.uname.toLowerCase().includes(username.toLowerCase()) &&
         item.txtLotteryname.toLowerCase().includes(Lotteryname.toLowerCase())
     );
+    let ddate = userarray.filter((item) => item.drawdate === drawdate);
+    console.log("dd", ddate);
+
+    let pdate = userarray.filter((item) => item.purchasedate === purchasedate1);
+    console.log("pd", pdate);
+
     console.log("new", newsample);
     console.log("lotteryname", sample);
     console.log("username", temp);
     console.log("myname", username);
     console.log("mylott", Lotteryname);
-    if (temp.length > 0 && sample.length > 0) {
+    console.log("purdate",purchasedate1)
+    if (
+      temp.length > 0 &&
+      sample.length > 0 &&
+      pdate.length === 0 &&
+      ddate.length === 0
+    ) {
+      console.log("using1")
       setUserarray(newsample);
-    } else if (temp.length > 0 && sample.length === 0) {
-      console.log("if");
-      setUserarray(temp);
-    } else {
-      console.log("else");
-      setUserarray(sample);
-    }
-
-    let ddate = userarray.filter((item) =>
-      item.lotterydrawdate.toLowerCase().includes(drawdate.toLowerCase())
-    );
-    console.log("dd", ddate);
-    let pdate = userarray.filter((item) =>
-      item.purchasedate.includes(purchasedate1)
-    );
-    console.log("pd", pdate);
-    if (pdate.length > 0) {
-      setUserarray(pdate);
-    } else {
+    } else if (
+      ddate.length > 0 &&
+      pdate.length === 0
+    ) {
+      console.log("using2");
       setUserarray(ddate);
-    }
-
+    } else{
+      setUserarray(pdate);
+    } 
     setMainshow(false);
+    console.log(mainshow);
   };
 
-  //====================================//
+  //=================searchbar===================//
 
-  var usertemparray = [...userarray];
-  console.log("fs", filtersearch);
-  usertemparray = userarray.filter(
-    (item) =>
-      item.txtLotteryname.toLowerCase().includes(filtersearch.toLowerCase()) ||
-      item.name.toLowerCase().includes(filtersearch.toLowerCase()) ||
-      item.txtaddress.toLowerCase().includes(filtersearch.toLowerCase()) ||
-      item.purchasedate.includes(filtersearch) ||
-      item.lotterydrawdate.includes(filtersearch)
-  );
+  const setSerach = (value) => {
+    let temp = userdata.filter(
+      (item) =>
+        item.txtLotteryname.toLowerCase().includes(value.toLowerCase()) ||
+        item.uname.toLowerCase().includes(value.toLowerCase()) ||
+        item.txtaddress.toLowerCase().includes(value.toLowerCase()) ||
+        item.purchasedate.includes(value) ||
+        item.drawdate.includes(value)
+    );
+
+    setUserarray(temp);
+    console.log({ value });
+    console.log(value);
+    console.log("temp", temp);
+  };
 
   //=======================selectall checkbox================//
 
@@ -128,25 +133,34 @@ function AdminUnitlist() {
     setSelectall(false);
     console.log("helloooooo", value);
     let temp = [...userarray];
-    for (const item of temp) {
-      temp[value].ischecked = !temp[value].ischecked;
+    if (temp[value].ischecked == false) {
+      temp[value].ischecked = true;
+    } else {
+      temp[value].ischecked = false;
     }
+    setUserarray(temp);
+    console.log("hh", temp[value]);
   };
-  const handlechange = (e) => {
+
+  const handlechange = () => {
     setSelectall(selectall ? false : true);
     var temp = [...userarray];
+    if(selectall===false){
     for (const item of temp) {
-      if (item.ischecked == false) {
-        item.ischecked = true;
-        console.log("hello iam");
-      } else {
-        item.ischecked = false;
+      // if (item.ischecked == false) {
+      //   item.ischecked = true;
+      //   console.log("hello iam");
+      // } else {
+      //   item.ischecked = false;
+      // }
+      item.ischecked=true
+    }}else{
+      for(const item of temp){
+        item.ischecked=false;
       }
     }
     setUserarray(temp);
   };
-
-  console.log("pp", usertemparray);
 
   //================================================================================//
 
@@ -202,7 +216,7 @@ function AdminUnitlist() {
     <div className="AdminUnitlist_outer">
       <div className="AdminUnitlist_headerUser">
         {" "}
-        {/* <HeaderUser
+        <HeaderUser
           label1={uname}
           label2={0}
           label3={"My Cart"}
@@ -215,17 +229,16 @@ function AdminUnitlist() {
           label5click={label5click}
           label7click={label7click}
           label6click={label6click}
-        /> */}
-        <h1>Header</h1>
+        />
+        
       </div>
-      <input type="text" onChange={(e) => setFilterSerach(e.target.value)} />
       <div className="AdminUnitlist_filterbar">
         <Filterbar
           //   DeleteFunc={DeleteFunc}
           //   search_date={search_date}
+          setSerach={setSerach}
+          handleclick={filterhandleclick}
           handleselectall={handlechange}
-          setFilterSerach={setFilterSerach}
-          handleclick={handleclick}
           value={selectall}
         />
       </div>
@@ -239,15 +252,13 @@ function AdminUnitlist() {
         handleclickfilter={handleclickfilter}
       />
       <div className="AdminUnitlist_unitlist">
-        {/* <AdminUserList data={usertemparray} fun2={handlechanging} /> */}
         <div className="AdminUnitlist_unitlist_item">
-          <Adminuserslist data={usertemparray} handlechange={handlechanging} />
+          <AdminUserList data={userarray} handlechange={handlechanging} />
         </div>
       </div>
       <div className="AdminUnitlist_footer">
-        {/* <Footer /> */}
+        <Footer />
 
-        <h1>footer</h1>
       </div>
     </div>
   );

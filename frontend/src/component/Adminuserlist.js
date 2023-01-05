@@ -28,12 +28,12 @@ export default function Adminuserslist({ data,handlechange}) {
                       checked={item.ischecked}
                     />
                   </td>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
+                  <td>{item.uid}</td>
+                  <td>{item.uname}</td>
                   <td>{item.txtaddress}</td>
                   <td>{item.txtLotteryname}</td>
                   <td>{item.purchasedate}</td>
-                  <td>{item.lotterydrawdate}</td>
+                  <td>{item.drawdate}</td>
                 </tr>
               </>
             );

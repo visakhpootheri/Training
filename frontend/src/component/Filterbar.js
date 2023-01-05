@@ -1,5 +1,4 @@
-// import "./Filterbar.css";
-import "../style/Filterbar.css";
+import "./Filterbar.css";
 import { BsFillCheckCircleFill, BsFilter } from "react-icons/bs";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdEdit, MdDelete } from "react-icons/md";
@@ -26,9 +25,9 @@ export default function Filterbar({
   search_dropdownshow,
   handleselectall,value,
   setFilterSerach,
+  setSerach,
   handleclick
 }) {
-  
   return (
     <>
       <div className="Filterbar_outer">
@@ -46,13 +45,6 @@ export default function Filterbar({
           <div className="column2_inner1" onClick={handleclickfilterbar_filter}>
             <BsFilter className="column2_inner1_Filter" />
             <label  onClick={handleclick}>Filters</label>
-            {/* <Filterbox showfilter={mainshow}
-          setName={setUsername}
-          setLotteryname={setLotteryname}
-          setPurchasedate1={setPurchasedate1}
-          setPurchasedate2={setPurchasedate2}
-          setDrawdate={setDrawdate}
-          handleclickfilter={handleclickfilter}/> */}
           </div>
           <div className="column2_inner2">
             {tasklistsearchshow ? (
@@ -103,8 +95,9 @@ export default function Filterbar({
                   type={"text"}
                   placeholder="Search"
                   className="filterbar_search"
-                  onChange={(e)=>setFilterSerach(e.target.value)}
-
+                  // onChange={(e)=>setFilterSerach(e.target.value)}
+                  onChange={(e)=>{setSerach(e.target.value)}}
+                  
                 />
               </>
             )}
